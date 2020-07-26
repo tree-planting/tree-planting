@@ -24,10 +24,10 @@ services:
 #    container_name: frontend
 #    build:
 #      context: ./frontend
-      #dockerfile: ./frontend/Dockerfile
+     #dockerfile: ./frontend/Dockerfile
 #    volumes:
-#      - '.:/app'
-#      - '/app/node_modules'
+#      - ./frontend:/app
+      #- /app/node_modules
 #    ports:
 #      - 3001:3000
 #    environment:
