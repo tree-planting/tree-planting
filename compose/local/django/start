@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+#npm run build-dev
+
+#python manage.py migrate --delete-ghost-migrations
+#python manage.py migrate
+python manage.py runserver 0.0.0.0:8000

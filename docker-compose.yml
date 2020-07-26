@@ -3,15 +3,32 @@ version: '3.7'
 
 services:
 
-  frontend:
-    container_name: frontend
+  django:
     build:
       context: .
-      dockerfile: Dockerfile
-    volumes:
-      - '.:/app'
-      - '/app/node_modules'
+      dockerfile: ./compose/local/django/Dockerfile
+    container_name: tree-web-dev-container
+    image: tree-web-dev-image
     ports:
-      - 3001:3000
-    environment:
-      - CHOKIDAR_USEPOLLING=true
+      - 8000:8000
+    volumes:
+      - .:/srv/app
+    #  - ../cryobank-volumes/media:/cryobank-volumes/media
+    command: /srv/start
+
+    restart: always
+    env_file:
+      - .env
+
+#  frontend:
+#    container_name: frontend
+#    build:
+#      context: ./frontend
+      #dockerfile: ./frontend/Dockerfile
+#    volumes:
+#      - '.:/app'
+#      - '/app/node_modules'
+#    ports:
+#      - 3001:3000
+#    environment:
+#      - CHOKIDAR_USEPOLLING=true
