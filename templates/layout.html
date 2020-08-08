@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>tree-patching::{{ item.county }}::{{ item.title }}</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <link rel="stylesheet" href="/static/css/musubii.min.css" />
+  <link rel="stylesheet" href="/static/css/place.css" />
+</head>
+<body>
+<body>
+  <div class="app">
+    <header class="section is-header is-padding-top-safe">
+      <div class="inner is-padding-right-sm is-padding-left-md">
+	<div class="grid is-middle is-between">
+	  <div class="column">
+	    <div class="box is-flex is-bottom">
+	      <div class="box is-margin-right-sm">
+                <span class="tree-logo"><a href="https://sheet2site.com/api/v3/index.php?key=1v9FhftI7hhkID2EQRhtbFc9bZ5Jq6dB89BwDh1SSCIs">台灣好植地 Patch by Planting</a></span>
+	      </div>
+	      <div class="box is-flex">
+		<span class="text is-font-sans-en is-line-height-xs is-xs"></span>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+      </div>
+    </header>
+    <main>
+      <section class="section is-hero is-padding-horizontal-safe is-wide-lg">
+	<div class="inner is-padding-horizontal-md">
+	  <div class="grid is-middle is-center is-gap-xxl">
+	    <div class="column is-space-md">
+	      <p class="text is-primary is-font-sans-en is-weight-700">
+		<span class="text is-block is-hero-1 tree-title">{{ item.county }} - {{ item.title }}</span>
+	      </p>
+	      <h1 class="text is-line-height-lg is-sm">
+		<span class="text is-fablet-block">{{ item.description }}</span>
+	      </h1>
+	    </div>
+	  </div>
+	</div>
+      </section>
+      <section class="section is-hero is-padding-horizontal-safe is-wide-lg">
+	<div class="inner is-padding-horizontal-md">
+	  <h2 class="tree-subtitle">基本資料</h2>
+	  <div class="grid is-center is-top is-gap-md">
+	    <div class="column is-6">
+	      <div><img src="{{ item.cover_url }}"></div>
+	    </div>
+	    <div class="column is-6">
+	      <div class="card is-radius-sm is-bg-light is-floating">
+		<div class="box is-padding-md">
+		  <ul class="list is-disc">
+		    <li class="item">用地類型：{{ item.place_type }}</li>
+		    <li class="item">推動形式：{{ item.get_action_type_display }}</li>
+		    <li class="item">相關規範：{{ item.get_rule_links|safe }}</li>
+		    <li class="item">所有權單位：{{ item.get_owner_links|safe }}</li>
+		    <li class="item">管理單位：{{ item.get_administrator_links|safe }}</li>
+
+                    <li class="item">諮詢對象-民間/公部門：{{ item.get_contact_links|safe }}</li>
+
+		    <li class="item">認養單位：{{ item.get_sponsor_links|safe }}</li>
+                    <li class="item">苗圃：{{ item.get_nursery_links|safe }}</li>
+                    <li class="item">認養單位：{{ item.get_garden_links|safe }}</li>
+                    <li class="item">參考綠化案例：{{ item.get_case_links|safe }}</li>
+		    <li class="item">植物園與環教場所<a href="{{ item.link }}" target="_blank">相簿與討論區</a></li>
+		    <li class="item">經緯度：{{ item.lon}}, {{ item.lat }} <a href="https://www.google.com.tw/maps/@{{ item.lat }},{{ item.lon}},4976m/data=!3m1!1e3?hl=zh-TW" target="_blank" class="text is-link">google地圖</a></li>
+		  </ul>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+  </div>
+  </section>
+  
+  <section class="section is-hero is-padding-horizontal-safe is-wide-lg">
+    分析與工具
+    樹種資料應用
+    <markdown>
+      {{ item.note1 }}
+    </markdown>
+    
+    
+    Land Script 分析初評  
+    Powered by [LandScript](https://hackmd.io/-93qFuokQKOpPLEJKL4yaA)
+    
+    
+    
+    Unlimited Cities DIY 願景方案 
+    Powered by [HOST Lab](https://www.host-lab.org/)
+
+    [運用網頁工具，繪製您的願景方案](https://bit.ly/Unlimited-Cities-DIY-demo)
+    
+    建議查核項目
+    <markdown>
+      {{ item.note2 }}
+    </markdown>
+  </section>
+  
+  <section class="section is-hero is-padding-horizontal-safe is-wide-lg">		
+    參考資訊
+  </section>
+	</main>
+	</div>
+</body>
+</html>

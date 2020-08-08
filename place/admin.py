@@ -8,4 +8,5 @@ from .models import (
 class PlaceAdmin(admin.ModelAdmin):
     model = Place
 
+    list_display = ('id', 'county', 'title', 'place_type')
 #    search_fields=['species_name', 'species_name_zh', 'family_name', 'family_name_zh', 'verbatim_scientific_name']
