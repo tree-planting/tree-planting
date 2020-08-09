@@ -24,7 +24,9 @@ class PlaceAdmin(admin.ModelAdmin):
     model = Place
     list_display = ('id', 'county', 'title', 'place_type')
     inlines = (LandScriptInlineAdmin, UnlimitedCitiesInlineAdmin)
-#    search_fields=['species_name', 'species_name_zh', 'family_name', 'family_name_zh', 'verbatim_scientific_name']
+    search_fields = ('title',)
+    list_filter = ('county',)
+
 
 @admin.register(InfoText)
 class InfoTextAdmin(admin.ModelAdmin):
