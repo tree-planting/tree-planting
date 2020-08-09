@@ -2,12 +2,16 @@
 from django.contrib import admin
 
 from .models import (
-    Place,
-    InfoText,
-    LandScriptImage,
-    UnlimitedCitiesImage,
+   Place,
+   InfoText,
+   LandScriptImage,
+   UnlimitedCitiesImage,
+   Species,
 )
 
+@admin.register(Species)
+class SpeciesAdmin(admin.ModelAdmin):
+    model = Species
 
 class LandScriptInlineAdmin(admin.TabularInline):
    model = LandScriptImage
@@ -26,7 +30,7 @@ class PlaceAdmin(admin.ModelAdmin):
     inlines = (LandScriptInlineAdmin, UnlimitedCitiesInlineAdmin)
     search_fields = ('title',)
     list_filter = ('county',)
-
+    filter_horizontal = ('species_list',)
 
 @admin.register(InfoText)
 class InfoTextAdmin(admin.ModelAdmin):

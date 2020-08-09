@@ -11,12 +11,8 @@ docker-compose up
 ```
 
 
-## usage
+## System
 
 - Django
 - SQLite
-- MUSUBII
-- github markdown css
-https://github.com/sindresorhus/github-markdown-css
-
-https://musubii.qranoko.jp
+- MUSUBII https://musubii.qranoko.jp

@@ -8,7 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/static/css/musubii.min.css" />
   <link rel="stylesheet" href="/static/css/place.css" />
-  <link rel="stylesheet" href="/static/css/github-markdown.min.css">
+  <!--link rel="stylesheet" href="/static/css/github-markdown.min.css"-->
+  <!--link href="/static/css/markdown.css" rel="stylesheet"></link-->
   <style>
     .markdown-body {
         box-sizing: border-box;
@@ -23,7 +24,68 @@
             padding: 15px;
         }
     }
-    </style>
+
+    .markdown-body h1,
+    .markdown-body h2,
+    .markdown-body h3,
+    .markdown-body h4,
+    .markdown-body h5,
+    .markdown-body h6 {
+  font-weight: normal;
+  color: #111;
+  line-height: 1em;
+}
+    .markdown-body h4,
+    .markdown-body h5,
+    .markdown-body h6 {
+        font-weight: bold;
+    }
+
+.markdown-body h1 {
+  font-size: 2.5em;
+}
+
+.markdown-body h2 {
+  font-size: 2em;
+}
+
+.markdown-body h3 {
+  font-size: 1.5em;
+}
+
+.markdown-body h4 {
+  font-size: 1.2em;
+}
+
+.markdown-body h5 {
+  font-size: 1em;
+}
+
+.markdown-body h6 {
+  font-size: 0.9em;
+}
+
+.markdown-body blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #eee solid;
+}
+.markdown-body ul,
+.markdown-body ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+  list-style: unset;
+}
+
+.markdown-body ol {
+    list-style: decimal;
+}
+.markdown-body li p:last-child {
+  margin: 0;
+}
+
+  </style>
   <script>
     function initMap() {
       var fenway = {lat: 42.345573, lng: -71.098326};
@@ -109,7 +171,8 @@
                     <li class="item">苗圃：{{ item.get_nursery_links|safe }}</li>
                     <li class="item">認養單位：{{ item.get_garden_links|safe }}</li>
                     <li class="item">參考綠化案例：{{ item.get_case_links|safe }}</li>
-		    <li class="item">植物園與環教場所<a href="{{ item.link }}" target="_blank">相簿與討論區</a></li>
+		    <li class="item">植物園與環教場所：{{ item.get_garden_links|safe }}</li>
+                    <li class="item">相簿與討論區<a href="{{ item.link }}" target="_blank">連結</a></li>
 		    <li class="item">經緯度：{% if item.lon and item.lat %}{{ item.lon}}, {{ item.lat }} <a href="https://www.google.com.tw/maps/@{{ item.lat }},{{ item.lon}},1171m/data=!3m1!1e3?hl=zh-TW" target="_blank" class="text is-link">google地圖</a>{% endif%}</li>
 		  </ul>
 		</div>
@@ -123,19 +186,34 @@
 	  <h2 class="tree-subtitle">分析與工具</h2>
 	  <div class="grid is-center is-top is-gap-md">
 	    <div class="column is-12">
-              <h3>樹種資料應用</h3>
+              <h4 class="tree-subtitle2">樹種資料應用</h4>
               <div class="card is-radius-sm is-bg-light is-floating">
                 <div class="markdown-body">{{ item.tree_species_info | markdown | safe }}</div>
               </div>
             </div>
-	    <div class="column is-12">
-              tree images
+          </div>
+	  <div class="grid is-top is-gap-md is-margin-sm">
+            {% for i in item.species_list.all %}
+	    <div class="column is-4">
+              {% if i.get_images|length %}<img src="{{ i.get_images.0.image_big}}">{% endif %}
+              <span class="badge is-plain">{{ i.vernacular_name }}</span>
+              <div><small>{{ i.scientific_name }}</small></div>
+              <hr>
+              <div class="is-card"><small>描述: {{ i.description_cleaned }}</small></div>
+              <div class="is-card"><small>分佈: {{ i.locality_cleaned }}</small></div>
+            </div>
+            {% endfor %}
+          </div>
+          {% if item.species_list.count %}
+          <div class="grid is-center is-top is-gap-md is-margin-sm">
+	    <div class="column is-12"><div>資料來源: <a href="https://taicol.tw" target="_blank" class="text is-link is-primary">台灣物種名錄 TaiCoL</a> |  <a href="https://taieol.tw" target="_blank" class="text is-link is-primary">台灣生命大百科</a></div>
             </div>
           </div>
+          {% endif %}
 	  <h2 class="tree-subtitle">Land Script 分析初評</h2>
 	  <div class="grid is-center is-top is-gap-md">
 	    <div class="column is-12">
-              Powered by <a href="https://hackmd.io/-93qFuokQKOpPLEJKL4yaA" class="text is-link is-primary" target="_blank">LandScript</a>
+              <small>Powered by <a href="https://hackmd.io/-93qFuokQKOpPLEJKL4yaA" class="text is-link is-primary" target="_blank">LandScript</a></small>
             </div>
             {% for i in item.land_script_images.all %}
             <div class="column is-6">
@@ -147,7 +225,7 @@
 	  <h2 class="tree-subtitle">Unlimited Cities DIY 願景方案</h2>
 	  <div class="grid is-center is-top is-gap-md">
 	    <div class="column is-12">
-              Powered by <a href="https://www.host-lab.org/" class="text is-link is-primary" target="_blank">HOST Lab</a>
+              <small>Powered by <a href="https://www.host-lab.org/" class="text is-link is-primary" target="_blank">HOST Lab</a></small>
             </div>
             {% for i in item.unlimited_cities_images.all %}
             <div class="column is-6">
@@ -189,6 +267,13 @@
       console.log('-----')
       exports.initMap = initMap;
     })((this.window = this.window || {}));
-        </script>
+  </script>
+  <script>
+    const mdLinks = document.querySelectorAll('.markdown-body a');
+    for (let i in mdLinks) {
+      mdLinks[i].className = 'text is-link';
+      mdLinks[i].target = '_blank';
+    }
+  </script>  
 </body>
 </html>

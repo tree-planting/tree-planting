@@ -12,6 +12,8 @@ django-cors-headers = "*"
 pillow = "*"
 markdown = "*"
 gunicorn = "*"
+pandas = "*"
+requests = "*"
 
 [requires]
 python_version = "3.8"

@@ -1,4 +1,5 @@
 import re
+import json
 
 from django.db import models
 
@@ -33,7 +34,27 @@ class Species(models.Model):
     scientific_name = models.CharField(max_length=500)
     name_code = models.CharField(max_length=500)
     vernacular_name = models.CharField(max_length=500)
+    description = models.TextField(default='', blank=True)
+    locality = models.TextField(default='', blank=True)
+    image_list = models.TextField(default='', blank=True)
 
+    def __str__(self):
+        return '<Species {}>'.format(self.vernacular_name)
+
+    def get_images(self):
+        if self.image_list:
+            return json.loads(self.image_list)
+
+    @property
+    def description_cleaned(self):
+        return self.description.replace('<p>', '').replace('</p>', '')
+
+    @property
+    def locality_cleaned(self):
+        return self.locality.replace('<p>', '').replace('</p>', '')
+
+    class Meta:
+        ordering = ['-image_list']
 
 class InfoText(models.Model):
     name = models.CharField(max_length=500)

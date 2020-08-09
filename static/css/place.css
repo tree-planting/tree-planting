@@ -12,4 +12,12 @@
 .tree-subtitle {
     font-size: 22px;
     font-weight: bold;
+    margin: 32px 0 0 0;
 }
+
+.tree-subtitle2 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
