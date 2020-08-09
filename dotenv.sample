@@ -1,0 +1,11 @@
+ENV=dev
+DEBUG=on
+SECRET_KEY=no-secret
+#DATABASE_URL=postgres://postgres:example@db:5432/tree
+ALLOWED_HOSTS=127.0.0.1
+CACHE_URL=memcache://127.0.0.1:11211,127.0.0.1:11212,127.0.0.1:11213
+REDIS_URL=rediscache://127.0.0.1:6379/1?client_class=django_redis.client.DefaultClient&password=ungithubbed-secret
+STATIC_ROOT=../../tree-volumes/static
+MEDIA_ROOT=../../tree-volumes/media
+JS_BUNDLE_VERSION=0
+CORS_ORIGIN_WHITELIST=http://127.0.0.1
