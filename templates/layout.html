@@ -110,7 +110,7 @@
                     <li class="item">認養單位：{{ item.get_garden_links|safe }}</li>
                     <li class="item">參考綠化案例：{{ item.get_case_links|safe }}</li>
 		    <li class="item">植物園與環教場所<a href="{{ item.link }}" target="_blank">相簿與討論區</a></li>
-		    <li class="item">經緯度：{{ item.lon}}, {{ item.lat }} <a href="https://www.google.com.tw/maps/@{{ item.lat }},{{ item.lon}},4976m/data=!3m1!1e3?hl=zh-TW" target="_blank" class="text is-link">google地圖</a></li>
+		    <li class="item">經緯度：{% if item.lon and item.lat %}{{ item.lon}}, {{ item.lat }} <a href="https://www.google.com.tw/maps/@{{ item.lat }},{{ item.lon}},1171m/data=!3m1!1e3?hl=zh-TW" target="_blank" class="text is-link">google地圖</a>{% enid f%}</li>
 		  </ul>
 		</div>
 	      </div>

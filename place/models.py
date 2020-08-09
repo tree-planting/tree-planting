@@ -89,8 +89,8 @@ class Place(models.Model):
     #sponsor = models.ForeignKey(Link, on_delete=models.SET_NULL, null=True, blank=True, limit_choices_to={'category': 'sponsor'}, related_name='sponsor_places')
     link = models.URLField('相簿與討論區', blank=True, null=True)
     cover_url= models.TextField(blank=True, null=True) # only fit 200 chars
-    lat = models.TextField(blank=True, null=True)
-    lon = models.TextField(blank=True, null=True)
+    lat = models.CharField(blank=True, null=True, max_length=500)
+    lon = models.CharField(blank=True, null=True, max_length=500)
     #x97 = models.TextField(blank=True, null=True)
     #y97 = models.TextField(blank=True, null=True)
     #tree_info = models.TextField(blank=True, null=True)
@@ -108,6 +108,8 @@ class Place(models.Model):
     #replant_size = models.TextField(blank=True, null=True)
     #revised_replant_size = models.TextField(blank=True, null=True)
 
+    def __str__(self):
+        return '<Place {}-{}>'.format(self.county, self.title)
 
     def get_rule_links(self):
         if not self.owner_text:
@@ -171,7 +173,7 @@ class Place(models.Model):
 
 def get_image_path(instance, filename):
     #print (instance, filename, instance.collection, instance.pk)
-    print (instance.CAT, instance)
+    #print (instance.CAT, instance)
     if instance.pk:
         place_id = instance.place_id
         ext = filename.split('.')[-1].lower()
