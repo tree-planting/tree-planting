@@ -6,8 +6,35 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <link rel="stylesheet" href="/static/css/musubii.min.css" />
   <link rel="stylesheet" href="/static/css/place.css" />
+
+  <script>
+    function initMap() {
+      var fenway = {lat: 42.345573, lng: -71.098326};
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: fenway,
+        zoom: 14
+      });
+      var panorama = new google.maps.StreetViewPanorama(
+        document.getElementById('pano'), {
+          position: fenway,
+          pov: {
+            heading: 34,
+            pitch: 10
+          }
+        });
+      map.setStreetView(panorama);
+    }
+    /*
+    var panorama = new google.maps.StreetViewPanorama(
+      document.getElementById('pano'), {
+        position: {lat: 37.869260, lng: -122.254811},
+        pov: {heading: 165, pitch: 0},
+        motionTracking: false
+      });
+*/
+  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgkoBw0w-Q3A-QQOIcPt-xhiz9ae2XDWM&callback=initMap" type="text/javascript"></script>
 </head>
-<body>
 <body>
   <div class="app">
     <header class="section is-header is-padding-top-safe">
@@ -27,6 +54,7 @@
       </div>
     </header>
     <main>
+      <div id="map"></div>
       <section class="section is-hero is-padding-horizontal-safe is-wide-lg">
 	<div class="inner is-padding-horizontal-md">
 	  <div class="grid is-middle is-center is-gap-xxl">
@@ -72,37 +100,74 @@
 	    </div>
 	  </div>
 	</div>
-  </div>
-  </section>
-  
-  <section class="section is-hero is-padding-horizontal-safe is-wide-lg">
-    分析與工具
-    樹種資料應用
-    <markdown>
-      {{ item.note1 }}
-    </markdown>
-    
-    
-    Land Script 分析初評  
-    Powered by [LandScript](https://hackmd.io/-93qFuokQKOpPLEJKL4yaA)
-    
-    
-    
-    Unlimited Cities DIY 願景方案 
-    Powered by [HOST Lab](https://www.host-lab.org/)
+      </section>
+      <section class="section is-hero is-padding-horizontal-safe is-wide-lg">
+        <div class="inner is-padding-horizontal-md">
+	  <h2 class="tree-subtitle">分析與工具</h2>
+	  <div class="grid is-center is-top is-gap-md">
+	    <div class="column is-12">
+              樹種資料應用
+              <code>{{ item.tree_species_info | safe }}</code>
+            </div>
+	    <div class="column is-12">
+              tree images
+            </div>
+          </div>
+	  <h2 class="tree-subtitle">Land Script 分析初評</h2>
+	  <div class="grid is-center is-top is-gap-md">
+	    <div class="column is-12">
+              Powered by <a href="https://hackmd.io/-93qFuokQKOpPLEJKL4yaA" class="text is-link is-primary" target="_blank">LandScript</a>
+            </div>
+            {% for i in item.land_script_images.all %}
+            <div class="column is-6">
+              <img src="{{ i.image.url }}">
+            </div>
+            {% endfor %}
+          </div>
 
-    [運用網頁工具，繪製您的願景方案](https://bit.ly/Unlimited-Cities-DIY-demo)
-    
-    建議查核項目
-    <markdown>
-      {{ item.note2 }}
-    </markdown>
-  </section>
-  
-  <section class="section is-hero is-padding-horizontal-safe is-wide-lg">		
-    參考資訊
-  </section>
-	</main>
-	</div>
+	  <h2 class="tree-subtitle">Unlimited Cities DIY 願景方案</h2>
+	  <div class="grid is-center is-top is-gap-md">
+	    <div class="column is-12">
+              Powered by <a href="https://www.host-lab.org/" class="text is-link is-primary" target="_blank">HOST Lab</a>
+            </div>
+            {% for i in item.land_script_images.all %}
+            <div class="column is-6">
+              <img src="{{ i.image.url }}">
+            </div>
+            {% endfor %}
+          </div>
+          <div class="column is-12">
+            <a href="https://bit.ly/Unlimited-Cities-DIY-demo" target="_blank" class="text is-link is-primary">運用網頁工具，繪製您的願景方案</a>
+          </div>
+        </div>
+        <div class="inner is-padding-horizontal-md">
+	  <h2 class="tree-subtitle">建議查核項目</h2>
+	  <div class="grid is-center is-top is-gap-md">
+	    <div class="column is-12">
+              <code>{{ item.checklist_info | safe }}</code>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script>
+    (function(exports) {
+      "use strict";
+
+      function initMap() {
+        console.log('init map');
+        exports.map = new google.maps.Map(document.getElementById("map"), {
+          center: {
+            lat: -34.397,
+            lng: 150.644
+          },
+          zoom: 8
+        });
+      }
+      console.log('-----')
+      exports.initMap = initMap;
+    })((this.window = this.window || {}));
+        </script>
 </body>
 </html>

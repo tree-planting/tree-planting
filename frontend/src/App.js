@@ -82,7 +82,7 @@ export default function App() {
       <React.Fragment>
       <AppBar className={classes.appBar}>
         <Toolbar>
-      <Typography variant="h6"><Link href={HOME_URL} color="inherit"> 台灣好植地 Patch by Planting</Link></Typography>
+      <Typography variant="h6"><Link href={HOME_URL} color="inherit"> 台灣好植地 Patch by PlantingO</Link></Typography>
         </Toolbar>
       </AppBar>
       <Container maxWidth="sm" className={classes.container}>

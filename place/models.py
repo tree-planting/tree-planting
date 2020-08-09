@@ -3,7 +3,7 @@ import re
 from django.db import models
 
 def find_links(s):
-    print ('======', s)
+    #print ('======', s)
     #m = re.search(r'\((.+)\)', s)
     #if m and m.group(1):
     #    print (m.group(1))
@@ -25,7 +25,7 @@ def find_links(s):
             links.append('<a href={} target=_"blank" class="text is-link">{}</a>'.format(q[1], q[0]))
         else:
             links.append(p)
-    print (links)
+
     return ', '.join(links)
 
 
@@ -38,6 +38,10 @@ class Species(models.Model):
 class InfoText(models.Model):
     name = models.CharField(max_length=500)
     content = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return '<InfoText({}) {}>'.format(self.id, self.name)
+
 
 class Link(models.Model):
     CAT_CHOICES = [
@@ -84,14 +88,14 @@ class Place(models.Model):
     #administrator = models.ForeignKey(Link, on_delete=models.SET_NULL, null=True, blank=True, limit_choices_to={'category':'admin'}, related_name='admin_places')
     #sponsor = models.ForeignKey(Link, on_delete=models.SET_NULL, null=True, blank=True, limit_choices_to={'category': 'sponsor'}, related_name='sponsor_places')
     link = models.URLField('相簿與討論區', blank=True, null=True)
-    cover_url= models.URLField(blank=True, null=True)
+    cover_url= models.TextField(blank=True, null=True) # only fit 200 chars
     lat = models.TextField(blank=True, null=True)
     lon = models.TextField(blank=True, null=True)
     #x97 = models.TextField(blank=True, null=True)
     #y97 = models.TextField(blank=True, null=True)
     #tree_info = models.TextField(blank=True, null=True)
     #check_info = models.TextField(blank=True, null=True)
-    species_list = models.ManyToManyField(Species, related_name='places')
+    species_list = models.ManyToManyField(Species, related_name='places', blank=True)
 
     #land_script_url_list
     #filter = models.TextField(blank=True, null=True)
@@ -154,6 +158,15 @@ class Place(models.Model):
 
         return find_links(self.case_text)
 
+    @property
+    def tree_species_info(self):
+        if info := InfoText.objects.get(pk=1):
+            return info.content
+
+    @property
+    def checklist_info(self):
+        if info := InfoText.objects.get(pk=2):
+            return info.content
 
 
 def get_image_path(instance, filename):
@@ -162,7 +175,7 @@ def get_image_path(instance, filename):
     if instance.pk:
         place_id = instance.place_id
         ext = filename.split('.')[-1].lower()
-        path = 'place/{}/{}.{}'.format(place_id, instance.pk, ext)
+        path = 'place/{}/{}/{}.{}'.format(place_id, instance.CAT, instance.pk, ext)
         #exist_path = os.path.join(settings.MEDIA_ROOT, path)
         return path
     return ''

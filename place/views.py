@@ -2,7 +2,9 @@ import json
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import Place
+from .models import (
+    Place,
+)
 
 def detail_api(request, pk):
     item = Place.objects.get(pk=pk)
@@ -13,4 +15,6 @@ def detail_api(request, pk):
 
 def detail(request, pk):
     item = Place.objects.get(pk=pk)
-    return render(request, 'layout.html', context={'item': item})
+
+    return render(request, 'layout.html', context={
+        'item': item})

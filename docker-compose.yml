@@ -13,7 +13,7 @@ services:
       - 8000:8000
     volumes:
       - .:/srv/app
-    #  - ../cryobank-volumes/media:/cryobank-volumes/media
+      - ../tree-volumes/media:/tree-volumes/media
     command: /srv/start
 
     restart: always
