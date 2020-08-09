@@ -14,6 +14,7 @@ services:
     volumes:
       - .:/srv/app
       - ../tree-volumes/media:/tree-volumes/media
+      - ../tree-volumes/db:/tree-volumes/db
     command: /srv/start
 
     restart: always
