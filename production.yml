@@ -5,14 +5,15 @@ services:
   django:
     build:
       context: .
-      dockerfile: ./compose/local/django/Dockerfile
-    container_name: tree-web-dev-container
-    image: tree-web-dev-image
+      dockerfile: ./compose/production/django/Dockerfile
+    container_name: tree-web-prod-container
+    image: tree-web-prod-image
     ports:
       - 8000:8000
     volumes:
       - .:/srv/app
       - ../tree-volumes/media:/tree-volumes/media
+      - ../tree-volumes/static:/tree-volumes/static
       - ../tree-volumes/db:/tree-volumes/db
     command: /srv/start
 
@@ -20,6 +21,17 @@ services:
     env_file:
       - .env
 
+  nginx:
+    image: nginx:1.17.6-alpine
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./compose/production/nginx:/etc/nginx/conf.d
+      - ../tree-volumes/static:/tree-volumes/static
+      - ../tree-volumes/media:/tree-volumes/media
+    links:
+      - django:django
 #  frontend:
 #    container_name: frontend
 #    build:

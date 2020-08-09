@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+#npm run build-dev
+
+#python manage.py migrate --delete-ghost-migrations
+python manage.py migrate
+#python manage.py runserver 0.0.0.0:8000
+#python manage.py runserver_plus 0.0.0.0:8000
+
+python manage.py collectstatic --no-input
+
+#gunicorn --bind 0.0.0.0:8001 --workers=2 --timeout 60 conf.wsgi:application
+/usr/local/bin/gunicorn conf.wsgi --bind 0.0.0.0:8001 --chdir=/srv/app

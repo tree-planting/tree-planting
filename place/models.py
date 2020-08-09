@@ -182,7 +182,7 @@ def get_image_path(instance, filename):
 
 
 class RelatedImage(models.Model):
-    image = models.ImageField(upload_to=get_image_path)
+    image = models.ImageField(upload_to=get_image_path, blank=True)
     url= models.URLField(blank=True, null=True)
     position = models.PositiveSmallIntegerField(default=0)
 

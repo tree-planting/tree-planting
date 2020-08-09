@@ -1,12 +1,29 @@
+{% load utils %}
 <!DOCTYPE html>
 <html>
 <head>
   <title>tree-patching::{{ item.county }}::{{ item.title }}</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/static/css/musubii.min.css" />
   <link rel="stylesheet" href="/static/css/place.css" />
+  <link rel="stylesheet" href="/static/css/github-markdown.min.css">
+  <style>
+    .markdown-body {
+        box-sizing: border-box;
+        min-width: 200px;
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 45px;
+    }
 
+    @media (max-width: 767px) {
+        .markdown-body {
+            padding: 15px;
+        }
+    }
+    </style>
   <script>
     function initMap() {
       var fenway = {lat: 42.345573, lng: -71.098326};
@@ -106,8 +123,10 @@
 	  <h2 class="tree-subtitle">分析與工具</h2>
 	  <div class="grid is-center is-top is-gap-md">
 	    <div class="column is-12">
-              樹種資料應用
-              <code>{{ item.tree_species_info | safe }}</code>
+              <h3>樹種資料應用</h3>
+              <div class="card is-radius-sm is-bg-light is-floating">
+                <div class="markdown-body">{{ item.tree_species_info | markdown | safe }}</div>
+              </div>
             </div>
 	    <div class="column is-12">
               tree images
@@ -120,7 +139,7 @@
             </div>
             {% for i in item.land_script_images.all %}
             <div class="column is-6">
-              <img src="{{ i.image.url }}">
+              <img src="{% if i.image %}{{ i.image.url }}{% elif i.url %}{{ i.url }}{% endif %}">
             </div>
             {% endfor %}
           </div>
@@ -130,9 +149,9 @@
 	    <div class="column is-12">
               Powered by <a href="https://www.host-lab.org/" class="text is-link is-primary" target="_blank">HOST Lab</a>
             </div>
-            {% for i in item.land_script_images.all %}
+            {% for i in item.unlimited_cities_images.all %}
             <div class="column is-6">
-              <img src="{{ i.image.url }}">
+              <img src="{% if i.image %}{{ i.image.url }}{% elif i.url %}{{ i.url }}{% endif %}">
             </div>
             {% endfor %}
           </div>
@@ -144,7 +163,9 @@
 	  <h2 class="tree-subtitle">建議查核項目</h2>
 	  <div class="grid is-center is-top is-gap-md">
 	    <div class="column is-12">
-              <code>{{ item.checklist_info | safe }}</code>
+              <div class="card is-radius-sm is-bg-light is-floating">
+                <div class="markdown-body">{{ item.checklist_info | markdown | safe }}</div>
+              </div>
             </div>
           </div>
         </div>

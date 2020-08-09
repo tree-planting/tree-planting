@@ -11,6 +11,7 @@ django-environ = "*"
 django-cors-headers = "*"
 pillow = "*"
 markdown = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"
