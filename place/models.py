@@ -99,7 +99,7 @@ class Place(models.Model):
     owner_text = models.TextField('所有權單位', blank=True)
     administrator_text = models.TextField('管理單位', blank=True)
     contact_text = models.TextField('諮詢對象-民間/公部門', blank=True)
-    sponsor_text = models.TextField('認養單位', blank=True)
+    sponsor_text = models.TextField('認養單位', blank=True) # some place has value, error! need clean
     nursery_text = models.TextField('苗圃', blank=True)
     garden_text = models.TextField('植物園與環教場所', blank=True)
     case_text = models.TextField('參考綠化案例', blank=True)
@@ -133,10 +133,10 @@ class Place(models.Model):
         return '<Place {}-{}>'.format(self.county, self.title)
 
     def get_rule_links(self):
-        if not self.owner_text:
+        if not self.rule_text:
             return ''
 
-        return find_links(self.owner_text)
+        return find_links(self.rule_text)
 
     def get_owner_links(self):
         if not self.owner_text:

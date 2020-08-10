@@ -194,6 +194,22 @@
           </div>
 	  <div class="grid is-top is-gap-md is-margin-sm">
             {% for i in item.species_list.all %}
+            <div class="column is-12">
+              <span class="badge is-plain">{{ i.vernacular_name }}</span>
+              <div><small>{{ i.scientific_name }}</small></div>
+              <div class="is-card"><small>描述: {{ i.description_cleaned }}<br>
+                  分佈: {{ i.locality_cleaned }}
+              </small></div>
+            </div>
+
+            {% for j in i.get_images %}
+            <div class="column is-3">
+              <img src="{{ j.image_big}}">
+            </div>
+            {% endfor %}
+            {% endfor %}            
+            {% comment %}
+            {% for i in item.species_list.all %}
 	    <div class="column is-4">
               {% if i.get_images|length %}<img src="{{ i.get_images.0.image_big}}">{% endif %}
               <span class="badge is-plain">{{ i.vernacular_name }}</span>
@@ -203,6 +219,7 @@
               <div class="is-card"><small>分佈: {{ i.locality_cleaned }}</small></div>
             </div>
             {% endfor %}
+            {% endcomment %}
           </div>
           {% if item.species_list.count %}
           <div class="grid is-center is-top is-gap-md is-margin-sm">
