@@ -1,10 +1,13 @@
 import json
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from .models import (
     Place,
 )
+
+def index(request):
+    return redirect('https://bit.ly/tree-taiwan-sites')
 
 def detail_api(request, pk):
     item = Place.objects.get(pk=pk)
