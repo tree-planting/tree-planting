@@ -1,5 +1,8 @@
 version: '3.7'
 
+#volumes:
+#  production_traefik: {}
+
 services:
 
   django:
@@ -8,8 +11,8 @@ services:
       dockerfile: ./compose/production/django/Dockerfile
     container_name: tree-web-prod-container
     image: tree-web-prod-image
-    ports:
-      - 8000:8000
+    expose:
+      - 8001
     volumes:
       - .:/srv/app
       - ../tree-volumes/media:/tree-volumes/media
@@ -21,17 +24,53 @@ services:
     env_file:
       - .env
 
+#  nginx-certbot:
+#    restart: unless-stopped
+#    image: staticfloat/nginx-certbot
+#    ports:
+#      - 80:80/tcp
+#      - 443:443/tcp
+#    environment:
+#      CERTBOT_EMAIL: moogoo78@gmail.com
+#    volumes:
+#      - ./compose/production/nginx-certbot:/etc/nginx/user.conf.d:ro
+#      - letsencrypt:/etc/letsencrypt
+#    links:
+#      - django:django
+
   nginx:
-    image: nginx:1.17.6-alpine
-    restart: always
-    ports:
-      - 80:80
-    volumes:
-      - ./compose/production/nginx:/etc/nginx/conf.d
-      - ../tree-volumes/static:/tree-volumes/static
-      - ../tree-volumes/media:/tree-volumes/media
+    image: nginx:1.15-alpine
+    restart: unless-stopped
     links:
       - django:django
+    volumes:
+      - ./compose/production/nginx:/etc/nginx/conf.d
+      - ../tree-volumes/certbot/conf:/etc/letsencrypt
+      - ../tree-volumes/certbot/www:/var/www/certbot
+    ports:
+      - 80:80
+      - 443:443
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+  certbot:
+    image: certbot/certbot
+    restart: unless-stopped
+    volumes:
+      - ../tree-volumes/certbot/conf:/etc/letsencrypt
+      - ../tree-volumes/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+
+#  nginx:
+#    image: nginx:1.17.6-alpine
+#    restart: always
+#    ports:
+#      - 80:80
+#    volumes:
+#      - ./compose/production/nginx:/etc/nginx/conf.d
+#      - ../tree-volumes/static:/tree-volumes/static
+#      - ../tree-volumes/media:/tree-volumes/media
+#    links:
+#      - django:django
 #  frontend:
 #    container_name: frontend
 #    build:
@@ -44,3 +83,6 @@ services:
 #      - 3001:3000
 #    environment:
 #      - CHOKIDAR_USEPOLLING=true
+
+volumes:
+    letsencrypt:
