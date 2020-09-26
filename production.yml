@@ -24,33 +24,19 @@ services:
     env_file:
       - .env
 
-#  nginx-certbot:
-#    restart: unless-stopped
-#    image: staticfloat/nginx-certbot
-#    ports:
-#      - 80:80/tcp
-#      - 443:443/tcp
-#    environment:
-#      CERTBOT_EMAIL: moogoo78@gmail.com
-#    volumes:
-#      - ./compose/production/nginx-certbot:/etc/nginx/user.conf.d:ro
-#      - letsencrypt:/etc/letsencrypt
-#    links:
-#      - django:django
-
   nginx:
-    image: nginx:1.15-alpine
+    image: nginx:1.17.6-alpine
     restart: unless-stopped
-    links:
-      - django:django
     volumes:
       - ./compose/production/nginx:/etc/nginx/conf.d
+      - ../tree-volumes/static:/tree-volumes/static
+      - ../tree-volumes/media:/tree-volumes/media
       - ../tree-volumes/certbot/conf:/etc/letsencrypt
       - ../tree-volumes/certbot/www:/var/www/certbot
     ports:
       - 80:80
       - 443:443
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    #command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; don       e & nginx -g \"daemon off;\"'"
   certbot:
     image: certbot/certbot
     restart: unless-stopped
@@ -84,5 +70,5 @@ services:
 #    environment:
 #      - CHOKIDAR_USEPOLLING=true
 
-volumes:
-    letsencrypt:
+#volumes:
+#    letsencrypt:
