@@ -1,4 +1,6 @@
-FROM python:3.8-slim-buster
+ARG PYTHON_VERSION=3.10
+
+FROM python:${PYTHON_VERSION}-slim-buster AS builder
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -9,7 +11,7 @@ RUN apt-get update \
   # psycopg2 dependencies
   && apt-get install -y libpq-dev \
   # Translations dependencies
-  && apt-get install -y gettext \
+  # && apt-get install -y gettext \
   # cleaning up unused files
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
@@ -22,10 +24,12 @@ ENV TZ=Asia/Taipei
 
 
 # install python package
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir pipenv
-COPY Pipfile Pipfile.lock ./
-RUN pipenv install --dev --ignore-pipfile --system
+#RUN pip install --upgrade pip
+#RUN pip install --no-cache-dir pipenv
+#COPY Pipfile Pipfile.lock ./
+#RUN pipenv install --dev --ignore-pipfile --system
+COPY requirements requirements
+RUN pip install --no-cache --user -r requirements/base.txt
 
 
 #COPY ./compose/production/django/entrypoint /srv/entrypoint
