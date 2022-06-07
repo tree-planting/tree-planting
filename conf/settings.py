@@ -134,3 +134,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = env('MEDIA_ROOT', default=os.path.join(BASE_DIR, 'media'))
 
 JS_BUNDLE_VERSION = env('JS_BUNDLE_VERSION', default='')
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

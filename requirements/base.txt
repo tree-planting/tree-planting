@@ -1,0 +1,17 @@
+# Django
+django==4.0.5
+django-environ==0.8.1
+django-cors-headers==3.13.0
+
+# Service
+gunicorn==20.1.0
+
+# Tools
+Markdown==3.3.7
+pandas==1.4.2
+Pillow==9.1.1
+requests==2.27.1
+
+
+
+
