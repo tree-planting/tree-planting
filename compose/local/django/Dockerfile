@@ -24,10 +24,7 @@ ENV TZ=Asia/Taipei
 
 
 # install python package
-#RUN pip install --upgrade pip
-#RUN pip install --no-cache-dir pipenv
-#COPY Pipfile Pipfile.lock ./
-#RUN pipenv install --dev --ignore-pipfile --system
+RUN pip install --upgrade pip
 COPY requirements requirements
 RUN pip install --no-cache --user -r requirements/base.txt
 

@@ -1,4 +1,6 @@
-FROM python:3.10-slim-buster
+ARG PYTHON_VERSION=3.10
+
+FROM python:${PYTHON_VERSION}-slim-buster AS builder
 
 #ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -40,10 +42,8 @@ ENV TZ=Asia/Taipei
 
 # install python package
 RUN pip install --upgrade pip
-RUN pip install --no-cache-dir pipenv
-COPY Pipfile Pipfile.lock ./
-RUN pipenv install --dev --ignore-pipfile --system
-
+COPY requirements requirements
+RUN pip install --no-cache --user -r requirements/base.txt
 
 #COPY ./compose/production/django/entrypoint /srv/entrypoint
 #RUN sed -i 's/\r$//g' /srv/entrypoint
